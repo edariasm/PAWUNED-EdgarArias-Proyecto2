@@ -1,0 +1,66 @@
+﻿@model IEnumerable<HistorialViewModel>
+
+
+
+
+@{
+    ViewData["Title"] = "Galeria";
+}
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var userID = HttpContextAccessor.HttpContext.Session.GetString("id");
+    var tipoUsuario = HttpContextAccessor.HttpContext.Session.GetString("tipoUsuarioSesion");
+    var nombreUsuario = HttpContextAccessor.HttpContext.Session.GetString("nombreUsuario");
+    var nombreArtista = HttpContextAccessor.HttpContext.Session.GetString("nombreArtista");
+
+}
+
+
+
+
+
+
+<div>
+    <h1>Galería Virtual</h1>
+    <h2>Historial de movimientos</h2>
+
+</div>
+<br />
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            @* <th>Título de la obra</th> *@
+            <th>Id de la obra</th>
+            <th>Precio</th>
+            <th>Fecha de venta/compra</th>
+            <th>Movimientos</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @* <td>@item.TituloObra</td> *@
+                <td>@item.idobra</td>
+                <td>@item.Precio</td>
+                <td>@item.FechaVentaCompra</td>
+                <td>@item.Movimientos</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<br />
+<br />
+
+<div>
+    <a asp-controller="Home" asp-action="Privacy">Regresar a mi perfil</a>
+
+</div>
+
+

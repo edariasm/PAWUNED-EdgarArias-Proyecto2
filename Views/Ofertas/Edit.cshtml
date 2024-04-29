@@ -1,0 +1,44 @@
+﻿@model PAWUNED_EdgarArias_Proyecto2.Models.Oferta
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Oferta</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdOferta" />
+            <div class="form-group">
+                <label asp-for="IdSubasta" class="control-label"></label>
+                <select asp-for="IdSubasta" class="form-control" asp-items="ViewBag.IdSubasta"></select>
+                <span asp-validation-for="IdSubasta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdUsuarioComprador" class="control-label"></label>
+                <select asp-for="IdUsuarioComprador" class="form-control" asp-items="ViewBag.IdUsuarioComprador"></select>
+                <span asp-validation-for="IdUsuarioComprador" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MontoOferta" class="control-label"></label>
+                <input asp-for="MontoOferta" class="form-control" />
+                <span asp-validation-for="MontoOferta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

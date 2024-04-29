@@ -1,0 +1,67 @@
+﻿@using PAWUNED_EdgarArias_Proyecto2.Models
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+
+    paypal.Buttons({
+    layout: 'vertical',
+    color:  'blue',
+    shape:  'rect',
+    label:  'paypal'
+  }
+}).render('#paypal-button-container');
+</style>
+
+
+
+
+
+<h1>Realizar pago por obra adjudicada</h1>
+
+<h2>Ingresar el monto a procesar:</h2>
+<input id="precio" value="15"/>
+<h3>Seleccione su método de pago</h3>
+<br />
+<br />
+
+<script>
+    var precio = document.getElementById("precio").value;
+</script>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AUcVgZLhZiAqs5XJ5zIvlF5ZM_dzjs3SLQcFjlJ79btv1sT34-3wK5cu6gas4Vrdu88mFFFggBrAMhPc&components=buttons&commit=true"></script>
+
+
+<div id="paypal-button-container"></div>
+
+<script>
+
+    paypal.Buttons({
+        createOrder: function (data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: precio
+                        // value: '10.00' 
+                    }
+                }]
+            });
+        },
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+                
+                alert('Pago completado por ' + details.payer.name.given_name);
+
+                // Redirigir al usuario a la vista Create del controlador Transacciones
+                window.location.href = '/Transacciones/Create';
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+
+

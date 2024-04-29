@@ -1,0 +1,69 @@
+﻿@model PAWUNED_EdgarArias_Proyecto2.Models.Usuario
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Usuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdUsuario" />
+            <div class="form-group">
+                <label asp-for="NombreUsuario" class="control-label"></label>
+                <input asp-for="NombreUsuario" class="form-control" />
+                <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoUsuario" class="control-label"></label>
+                <input asp-for="TipoUsuario" class="form-control" />
+                <span asp-validation-for="TipoUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FotoUsuario" class="control-label"></label>
+                <input asp-for="FotoUsuario" class="form-control" />
+                <span asp-validation-for="FotoUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreArtista" class="control-label"></label>
+                <input asp-for="NombreArtista" class="form-control" />
+                <span asp-validation-for="NombreArtista" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BiografiaArtista" class="control-label"></label>
+                <input asp-for="BiografiaArtista" class="form-control" />
+                <span asp-validation-for="BiografiaArtista" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnlacePaginaArtista" class="control-label"></label>
+                <input asp-for="EnlacePaginaArtista" class="form-control" />
+                <span asp-validation-for="EnlacePaginaArtista" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

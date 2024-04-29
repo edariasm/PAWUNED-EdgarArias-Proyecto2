@@ -1,0 +1,46 @@
+﻿@model IEnumerable<PAWUNED_EdgarArias_Proyecto2.Models.Oferta>
+
+@{
+    ViewData["Title"] = "Reporte de ofertas";
+}
+
+
+<h1>Mis Ofertas</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Monto Oferta
+            </th>
+            <th>
+                Subasta
+            </th>
+            <th>
+                Comprador
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var oferta in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => oferta.MontoOferta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => oferta.IdSubastaNavigation.IdSubasta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => oferta.IdUsuarioCompradorNavigation.IdUsuario)
+                </td>
+                @* <td>
+                    <a asp-action="Edit" asp-route-id="@oferta.IdOferta">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@oferta.IdOferta">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@oferta.IdOferta">Eliminar</a>
+                </td> *@
+            </tr>
+        }
+    </tbody>
+</table>

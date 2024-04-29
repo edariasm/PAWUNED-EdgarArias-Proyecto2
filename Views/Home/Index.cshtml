@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+@{
+    var loginUrl = Url.Action("Login", "Home");
+}
+
+<script>
+    var loginUrl = '@loginUrl';
+</script>
+
+
+<script>
+
+    function login() {
+
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var userid;
+        console.log(username);
+        console.log(password);
+
+        // Llamar a la acción de Login del controlador Usuarios utilizando AJAX
+        $.ajax({
+            url: loginUrl, // URL de la acción de Login
+            type: 'POST', // Método HTTP
+            data: { username: username, password: password }, // Datos del formulario
+            success: function (result) {
+                // Manejar la respuesta del servidor
+                console.log(result);
+                // Redirigir a la página principal si el inicio de sesión fue exitoso
+                //userid = result.userid
+                window.location.href = '@Url.Action("Privacy", "Home")';
+            },
+            error: function (xhr, status, error) {
+                // Manejar errores de la solicitud AJAX
+                console.error(xhr.responseText);
+                alert('Error: No se pudo iniciar sesión');
+            }
+        });
+
+        // Evitar que el formulario se envíe automáticamente
+        return false;
+    }
+
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<div class="text-center">
+
+    <h1>Galería de Arte Virtual PAW </h1>
+    <h2>Universidad Estatal a Distancia</h2>
+    <h3>Proyecto No.2 Programación Avanzada en Web</h3>
+    <br /> <br />
+
+    <label>Ingrese nombre de usuario</label><br /> <br />
+    <input type="text" id="username" /> <br /><br />
+    <label>Contraseña</label> <br /> <br />
+    <input type="password" id="password" /> <br /> <br />
+
+    <button onclick="login()">Iniciar sesión</button>
+
+    <br /> <br /> <br />
+   
+    <a asp-controller="Usuarios" asp-action="Create"> Registrarse como nuevo usuario</a>
+
+
+
+</div>

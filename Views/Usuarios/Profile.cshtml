@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Perfil de Artista";
+}
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var userID = HttpContextAccessor.HttpContext.Session.GetString("id");
+    var tipoUsuario = HttpContextAccessor.HttpContext.Session.GetString("tipoUsuarioSesion");
+    var nombreUsuario = HttpContextAccessor.HttpContext.Session.GetString("nombreUsuario");
+    var nombreArtista = HttpContextAccessor.HttpContext.Session.GetString("nombreArtista");
+
+}
+
+
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Nombre de Usuario: @Model.NombreUsuario</h4>
+
+    <p>Mi ID de Usuario: @Model.IdUsuario</p>
+    <p>Nombre: @Model.NombreArtista</p>
+    <p>Email: @Model.Email</p>
+    <p>Bio: @Model.BiografiaArtista</p>
+    
+
+    @* <!-- Mostrar la imagen si FotoPerfil no es nulo -->
+    @if (Model.FotoUsuario != null && Model.FotoUsuario.Length > 0)
+    { *@
+
+    <img src="@Url.Content($"~/artistas/{nombreUsuario}.png")" />
+     
+    <br />
+    <br />
+    <div>
+	    <a asp-controller="Home" asp-action="Privacy">Regresar a mi perfil</a>
+    </div>
+    
+    
+
+</div>

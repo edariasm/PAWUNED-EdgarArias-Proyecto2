@@ -1,0 +1,49 @@
+﻿@model PAWUNED_EdgarArias_Proyecto2.Models.Subasta
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Subasta</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdSubasta" />
+            <div class="form-group">
+                <label asp-for="IdObra" class="control-label"></label>
+                <input asp-for="IdObra" class="form-control" />
+                <span asp-validation-for="IdObra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecioActual" class="control-label"></label>
+                <input asp-for="PrecioActual" class="form-control" />
+                <span asp-validation-for="PrecioActual" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaHoraCierre" class="control-label"></label>
+                <input asp-for="FechaHoraCierre" class="form-control" />
+                <span asp-validation-for="FechaHoraCierre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdUsuarioGanador" class="control-label"></label>
+                <select asp-for="IdUsuarioGanador" class="form-control" asp-items="ViewBag.IdUsuarioGanador"></select>
+                <span asp-validation-for="IdUsuarioGanador" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

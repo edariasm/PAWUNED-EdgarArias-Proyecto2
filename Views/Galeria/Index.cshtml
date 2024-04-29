@@ -1,0 +1,113 @@
+﻿@using PAWUNED_EdgarArias_Proyecto2.Models
+
+@model List<PAWUNED_EdgarArias_Proyecto2.Models.ObrasArte>
+
+
+
+
+@{
+    ViewData["Title"] = "Galeria";
+}
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	var userID = HttpContextAccessor.HttpContext.Session.GetString("id");
+	var tipoUsuario = HttpContextAccessor.HttpContext.Session.GetString("tipoUsuarioSesion");
+	var nombreUsuario = HttpContextAccessor.HttpContext.Session.GetString("nombreUsuario");
+	var nombreArtista = HttpContextAccessor.HttpContext.Session.GetString("nombreArtista");
+
+}
+
+
+
+
+
+<style>
+	.wrapper {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-gap: 10px;
+		border: black 1px solid;
+	}
+
+		.wrapper div {
+			border: black 1px solid;
+		}
+</style>
+
+
+<script>
+	 document.addEventListener("DOMContentLoaded", function () {
+	
+
+	var tipoUsuario = '@tipoUsuario';
+
+	
+
+		var ofertar = document.getElementsByClassName("ofertar");
+	
+	if (tipoUsuario === "Artista") {
+
+			for (var i = 0; i < ofertar.length; i++) {
+				ofertar[i].style.display = "none";
+			}
+
+
+	} 
+});
+
+
+</script>
+
+
+<div>
+	<h1>Galería Virtual</h1>
+	<h2>Obras disponibles para compra</h2>
+	@* <select id="TipoObra">
+		<option value="">Seleccionar Categoría de arte</option>
+		<option value="PinturaOleo">Pintura Oleo</option>
+		<option value="PinturaAcuarela">Pintura Acuarela</option>
+		<option value="Fotografía">Fotografía</option>
+		<option value="Escultura">Escultura mármol</option>
+	</select>
+	<p>Seleccionar artista</p> *@
+</div>
+<br /> <br />
+<div>
+	<a asp-controller="Home" asp-action="Privacy">Regresar a mi perfil</a>
+
+</div>
+<br />
+<br />
+
+
+
+<div class="wrapper">
+	@foreach (var obra in Model)
+	{
+		<div>
+			<h2>Artista: @obra.IdUsuario</h2>
+			<h3>Título de la obra: @obra.TituloObra</h3>
+			<h3>Imagen de la obra</h3>
+			<img src="@Url.Content($"~{obra.ImagenesObra}")" /> 
+			<h3>Precio actual: @obra.PrecioInicial</h3>
+				<p>Fecha de inicio: @obra.FechaInicioSubasta</p>
+				<p>Id de la obra: @obra.IdObra</p>
+				<p style="font-size:large">Estado de la obra: @obra.EstadoObra</p>
+
+
+			<a href="@Url.Action("ObraIndividual", "Galeria", new { idObra = obra.IdObra })">Ver detalles de la obra</a>
+
+		</div>
+
+	}
+
+</div>
+
+
+<br />
+<br />
+
+
+

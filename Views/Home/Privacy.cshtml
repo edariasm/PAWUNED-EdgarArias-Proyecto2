@@ -1,0 +1,99 @@
+﻿@model PAWUNED_EdgarArias_Proyecto2.Models.Usuario
+
+@{
+    ViewData["Title"] = "Bienvenido";
+}
+
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var userID = HttpContextAccessor.HttpContext.Session.GetString("id");
+    var tipoUsuario = HttpContextAccessor.HttpContext.Session.GetString("tipoUsuarioSesion");
+    var nombreUsuario = HttpContextAccessor.HttpContext.Session.GetString("nombreUsuario");
+    var nombreArtista = HttpContextAccessor.HttpContext.Session.GetString("nombreArtista");
+    
+}
+
+<style>
+    body{
+        text-align: center;
+    }
+
+</style>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var tipoUsuario = '@tipoUsuario';
+
+
+        // alert("perfil es " + tipoUsuario);
+
+        var divArtista = document.getElementById("Artista");
+        var divComprador = document.getElementById("comprador");
+        var nombreArtista = document.getElementById("nombreArtista");
+
+        if (tipoUsuario === "Artista") {
+            divArtista.style.display = "block";
+            nombreArtista.style.display = "block";
+            divComprador.style.display = "none";
+        } else if (tipoUsuario === "Comprador") {
+            divArtista.style.display = "none";
+            divComprador.style.display = "block";
+            nombreArtista.style.display = "none";
+        } else {
+            // En caso de que el valor no sea ninguno de los esperados, ocultar ambos divs
+            divArtista.style.display = "none";
+            divComprador.style.display = "none";
+        }
+    });
+
+
+</script>
+
+
+
+
+
+<h1>Bienvenido a Galería Virtual PAW</h1>
+<p>Autenticación correcta</p>
+<h2>Id de usuario: @userID</h2>
+<h3>Usuario: @nombreUsuario </h3>
+<h3 id="nombreArtista">Artista: @nombreArtista</h3>
+<h3>Perfil: @tipoUsuario</h3>
+
+
+
+
+
+<div id="Artista">
+    <p>Opciones de artista</p>
+       <a asp-area="" asp-controller="ObrasArtes" asp-action="Create">Agregar nueva obra</a>
+       <br />
+       <a asp-area="" asp-controller="Subastas" asp-action="Create">Crear subasta</a>
+        <br />
+        <a asp-area="" asp-controller="Galeria" asp-action="Index">Galeria de obras</a>
+        @*<a asp-area="" asp-controller="Galeria" asp-action="MisObras">Ver mis obras en venta</a> *@
+       @* <br />
+        <a asp-area="" asp-controller="Historial" asp-action="Historial">Historial de mis obras</a> *@
+        <br />
+    <a asp-controller="Usuarios" asp-action="Profile" asp-route-id="@userID">Ver mi perfil</a>
+</div>
+
+
+
+<div id="comprador">
+
+    <p>Opciones de comprador</p>
+    
+        <a asp-area="" asp-controller="Galeria" asp-action="Index">Galeria de obras</a><br />
+    <a asp-area="" asp-controller="Ofertas" asp-action="MisOfertas">Mostrar mi historial de ofertas realizadas</a><br />
+    <a asp-area="" asp-controller="Subastas" asp-action="MisSubastasGanadas">Mostrar mi historial de obras compradas</a><br />
+    <a asp-area="" asp-controller="PayPalOrder" asp-action="Index">Realizar pago</a><br />
+    <a asp-area="" asp-controller="Transacciones" asp-action="Create">Registrar pago (transacción)</a><br />
+    
+
+</div>
+

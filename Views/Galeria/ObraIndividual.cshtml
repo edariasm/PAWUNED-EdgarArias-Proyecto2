@@ -1,0 +1,158 @@
+﻿@using PAWUNED_EdgarArias_Proyecto2.Models
+
+@model PAWUNED_EdgarArias_Proyecto2.Models.ObraIndividual
+
+
+@{
+    ViewData["Title"] = "Obra";
+}
+
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	var userID = HttpContextAccessor.HttpContext.Session.GetString("id");
+	var tipoUsuario = HttpContextAccessor.HttpContext.Session.GetString("tipoUsuarioSesion");
+	var nombreUsuario = HttpContextAccessor.HttpContext.Session.GetString("nombreUsuario");
+	var nombreArtista = HttpContextAccessor.HttpContext.Session.GetString("nombreArtista");
+
+}
+
+
+<script>
+
+	document.addEventListener("DOMContentLoaded", function () {
+
+		var tipoUsuario = '@tipoUsuario';
+
+
+		// alert("perfil es " + tipoUsuario);
+
+		var divOfertar = document.getElementById("ofertar");
+		var divFinal = document.getElementById("finalizarSub");
+
+
+		if (tipoUsuario === "Artista") {
+			divOfertar.style.display = "none";
+			divFinal.style.display = "block";
+		} else if (tipoUsuario === "Comprador") {
+			divOfertar.style.display = "block";
+			divFinal.style.display = "none";
+			
+		} else {
+			// En caso de que el valor no sea ninguno de los esperados, ocultar ambos divs
+			divOfertar.style.display = "none";
+		}
+	});
+
+
+</script>
+
+
+
+
+<div>
+	
+	
+		<h1>Galería Virtual</h1>
+		<h2>Obra individual</h2>
+		<h3>Título: @Model.Obra.TituloObra</h3>
+		<p>Precio base inicial: @Model.Obra.PrecioInicial</p>
+		<p>Email del artista: @Model.Artista.Email</p>
+		<img src="@Url.Content($"~{Model.Obra.ImagenesObra}")" />
+		<p>Id de obra: @Model.Obra.IdObra</p>
+		<p>Id de subasta: @Model.Subasta.IdSubasta</p>
+		
+		
+	
+</div>
+
+
+<br />
+<br />
+
+
+<div id="ofertar">
+	
+	
+   	<a href="/Ofertas/Create?idSubasta=@Model.Subasta.IdSubasta">Realizar oferta por esta obra</a>
+	
+	@* <a href="/Ofertas/Create?idObra=@Model.Obra.IdObra&montoOferta=@ViewBag.MontoOferta">Realizar oferta por esta obra</a> *@
+
+</div>
+
+<div id="finalizarSub">
+	<button onclick="finalizarSubasta()">Finalizar subasta</button>
+
+</div>
+
+
+
+
+
+<br />
+<br />
+
+
+
+<div>
+	
+	<a asp-controller="Home" asp-action="Privacy">Regresar a mi perfil</a>
+
+</div>
+
+
+
+
+<script>
+	//Funcion solo para el fe
+	function agregaOferta() {
+		var nuevaOferta = document.getElementById("montoOferta").value;
+		alert("nueva oferta: " + nuevaOferta);
+		var ofertaAnt = document.getElementById("OfertaVigente").value;
+		alert("oferta vigente: " + ofertaAnt);
+		var ofertaTrasAnt = document.getElementById("ofertaAnterior").value;
+		alert("oferta anterior: " + ofertaTrasAnt);
+		
+		
+		document.getElementById("ofertaAnterior").value = ofertaAnt;
+		document.getElementById("ofertaTrasAnt").value = ofertaTrasAnt;
+		document.getElementById("OfertaVigente").value = nuevaOferta;
+
+	
+	}
+
+
+		function validarFormulario() {
+		var usuarioId = document.getElementById("idUsuarioComprador").value;
+		if (!isNaN(usuarioId)) {
+			// El valor ingresado es un número, puedes enviar el formulario
+			// alert("Id de usuario es un numero valido");
+			document.getElementById("formOferta").submit();
+		} else {
+			// El valor ingresado no es un número, muestra un mensaje de error al usuario
+			alert("el Id de usuario no es un numero");
+		}
+	}
+
+	function finalizarSubasta() {
+		var idSubasta = @Model.Subasta.IdSubasta; // Obtener el ID de la subasta desde el modelo
+
+		// Realizar una solicitud AJAX al servidor para finalizar la subasta
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("FinalizarSub", "FinalizarSubasta")',
+			data: { idSubasta: idSubasta },
+			success: function (data) {
+				alert('Subasta finalizada con éxito');
+			},
+			error: function (xhr, status, error) {
+				// caso de error
+				alert('Error al finalizar la subasta: ' + error);
+			}
+		});
+	}
+
+
+
+</script>

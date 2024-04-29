@@ -1,0 +1,40 @@
+﻿@model IEnumerable<PAWUNED_EdgarArias_Proyecto2.Models.Subasta>
+
+@{
+    ViewData["Title"] = "Mis Subastas Ganadas";
+}
+
+<h1>Mis Subastas Ganadas</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id Obra
+            </th>
+            <th>
+                Precio de compra
+            </th>
+            <th>
+                Fecha de compra
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var subasta in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => subasta.IdObra)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => subasta.PrecioActual)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => subasta.FechaHoraCierre)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

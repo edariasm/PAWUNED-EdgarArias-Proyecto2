@@ -1,0 +1,151 @@
+﻿@model PAWUNED_EdgarArias_Proyecto2.Models.ObrasArte
+@using System.IO
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{
+    var fileName = Model?.ImagenesObra != null ? System.IO.Path.GetFileName(Model.ImagenesObra) : string.Empty;
+    
+}
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    // var usuarioID = HttpContextAccessor.HttpContext.Session.GetString("id");
+    var tipoUsuario = HttpContextAccessor.HttpContext.Session.GetString("tipoUsuarioSesion");
+
+    var userIDString = HttpContextAccessor.HttpContext.Session.GetString("id"); // Obtener el valor de la sesión como string
+    int userID; // Declarar la variable donde se almacenará el ID convertido a entero
+
+    // Intentar convertir el valor de userIDString a un entero y almacenarlo en userID
+
+    int.TryParse(userIDString, out userID);
+
+    if (!string.IsNullOrEmpty(userIDString) && int.TryParse(userIDString, out userID))
+    {
+        Console.WriteLine("Variable convertida con exito: " + userID);
+    }
+
+
+}
+
+
+
+<h1>Agregar una nueva obra</h1>
+
+<h4>Obras de arte</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post"  enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           @*  <div class="form-group">
+                <label asp-for="IdUsuario" class="control-label"></label>
+                <span asp-validation-for="IdUsuario" class="form-control" value="@userID">@userID</span>
+                @* <input asp-for="IdUsuario" class="form-control" />
+                @* <select asp-for="IdUsuario" class ="form-control" asp-items="ViewBag.IdUsuario"></select> *@
+            @* </div> *@
+            <div class="form-group">
+                <label asp-for="TituloObra" class="control-label"></label>
+                <input asp-for="TituloObra" class="form-control" />
+                <span asp-validation-for="TituloObra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescripcionObra" class="control-label"></label>
+                <input asp-for="DescripcionObra" class="form-control" />
+                <span asp-validation-for="DescripcionObra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoriaObra" class="control-label"></label>
+                <select asp-for="CategoriaObra" class="form-control" id="TipoUsuario">
+                    <option value="">Seleccionar Categoría</option>
+                    <option value="PinturaOleo">Pintura Oleo</option>
+                    <option value="PinturaAcuarela">Pintura Acuarela</option>
+                    <option value="Fotografía">Fotografía</option>
+                    <option value="Escultura">Escultura mármol</option>
+                </select>
+                @* <input asp-for="CategoriaObra" class="form-control" /> *@
+                <span asp-validation-for="CategoriaObra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DimensionesObra" class="control-label"></label>
+                <input asp-for="DimensionesObra" class="form-control" />
+                <span asp-validation-for="DimensionesObra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecioInicial" class="control-label"></label>
+                <input asp-for="PrecioInicial" class="form-control" />
+                <span asp-validation-for="PrecioInicial" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaInicioSubasta" class="control-label"></label>
+                <input asp-for="FechaInicioSubasta" class="form-control" />
+                <span asp-validation-for="FechaInicioSubasta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DuracionSubasta" class="control-label"></label>
+                <input asp-for="DuracionSubasta" class="form-control" />
+                <span asp-validation-for="DuracionSubasta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstadoObra" class="control-label"></label>
+                <input asp-for="EstadoObra" class="form-control" value="Disponible"/>
+                <span asp-validation-for="EstadoObra" class="text-danger"></span>
+            </div>
+
+            <div>
+                <label>Subir imagen de la obra</label>
+                <input type="file" id="subirImagen" accept="image/*" class="form-control">
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagenesObra" class="control-label"></label>
+                <input asp-for="ImagenesObra" class="form-control" id="imagen-obra" />
+                <span asp-validation-for="ImagenesObra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Agregar obra" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+	<a asp-controller="Home" asp-action="Privacy">Regresar a mi perfil</a>
+
+</div>
+
+
+@* <div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+
+
+<script>
+    document.getElementById('subirImagen').addEventListener('change', function () {
+        var file = this.files[0];
+        if (file) {
+            var formData = new FormData();
+            formData.append('imagen', file);
+
+            // Realiza una solicitud AJAX para subir la imagen al servidor
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/ObrasArtes/SubirImagen', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Actualiza el valor del campo de entrada "imagen-obra" con la ruta de la imagen
+                    document.getElementById('imagen-obra').value = xhr.responseText;
+                    // document.getElementById('imagen-obra').value = xhr.responseText;
+                }
+            };
+            xhr.send(formData);
+        }
+    });
+</script>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

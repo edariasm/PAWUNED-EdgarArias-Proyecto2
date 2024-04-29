@@ -1,0 +1,166 @@
+﻿@model PAWUNED_EdgarArias_Proyecto2.Models.Usuario
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Registro de nuevo usuario</h1>
+
+<h4>Ingresar los datos requeridos</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NombreUsuario" class="control-label"></label>
+                <input asp-for="NombreUsuario" class="form-control" />
+                <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" type="email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoUsuario" class="control-label"></label>
+                <select asp-for="TipoUsuario" class="form-control" id="TipoUsuario">
+                    <option value="">Seleccionar Artista o Comprador </option>
+                    <option value="Artista">Artista</option>
+                    <option value="Comprador">Comprador</option>
+                </select>
+               @*  <input asp-for="TipoUsuario" class="form-control" /> *@
+                <span asp-validation-for="TipoUsuario" class="text-danger"></span>
+            </div>
+            <div>
+                <label>Subir imagen</label>
+                <input type="file" id="subirImagen" accept="image/*" class="form-control">
+            </div>
+            @* <div>
+                <button id="convertirImagen" onclick="convertir();">Convertir imagen</button>
+            </div> *@
+            
+            @* <div class="form-group">
+                <label asp-for="FotoUsuario" class="control-label"></label>
+                <input asp-for="FotoUsuario" class="form-control" id="imagen-artista" />
+                <span asp-validation-for="FotoUsuario" class="text-danger"></span>
+            </div> *@
+        <div class="form-group" id="camposArtista" style="display: none;">
+            <div class="form-group">
+                <label asp-for="NombreArtista" class="control-label"></label>
+                <input asp-for="NombreArtista" class="form-control" />
+                <span asp-validation-for="NombreArtista" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BiografiaArtista" class="control-label"></label>
+                <input asp-for="BiografiaArtista" class="form-control" />
+                <span asp-validation-for="BiografiaArtista" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnlacePaginaArtista" class="control-label"></label>
+                <input asp-for="EnlacePaginaArtista" class="form-control" />
+                <span asp-validation-for="EnlacePaginaArtista" class="text-danger"></span>
+            </div>
+        </div>
+            <script>
+                document.getElementById('TipoUsuario').addEventListener('change', function() {
+                    var tipoUsuario = this.value;
+                    var camposArtista = document.getElementById('camposArtista');
+
+                    if (tipoUsuario === 'Artista') {
+                        camposArtista.style.display = 'block';
+                    } else {
+                        camposArtista.style.display = 'none';
+                    }
+                });
+            </script>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+<a asp-controller="Home" asp-action="Privacy">Regresar a mi perfil</a>
+
+</div>
+
+@*  <div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+
+
+@* <script>
+    function convertir() {
+        var imagenObtenida = document.getElementById('subirImagen');
+        var file = imagenObtenida.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+            var base64String = event.target.result.split(',')[1]; // Obtenemos el contenido Base64 (después de la coma)
+
+            // Decodificamos la cadena Base64 a un array de bytes
+            var bytes = Uint8Array.from(atob(base64String), c => c.charCodeAt(0));
+
+            // Mostrar los bytes en la consola del navegador
+            console.log('Bytes de la imagen:', bytes);
+
+            // Asignar la cadena Base64 al valor del input "FotoUsuario"
+             var fotoPerfilInput = document.getElementById('FotoUsuario');
+             fotoPerfilInput.value = base64String;
+
+             // Asignar los bytes al campo FotoUsuario del formulario
+            // document.getElementById('FotoUsuario').value = bytes;
+
+            // Establecer el input como de solo lectura
+            fotoPerfilInput.readOnly = true;
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+</script>  *@
+
+
+<script>
+    document.getElementById('subirImagen').addEventListener('change', function () {
+        var file = this.files[0];
+        if (file) {
+            var formData = new FormData();
+            formData.append('imagen', file);
+
+            // Realiza una solicitud AJAX para subir la imagen al servidor
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Usuarios/SubirImagen', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Actualiza el valor del campo de entrada "imagen-obra" con la ruta de la imagen
+                    document.getElementById('imagen-artista').value = xhr.responseText;
+                    // document.getElementById('imagen-obra').value = xhr.responseText;
+                }
+            };
+            xhr.send(formData);
+        }
+    });
+</script>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+
+
+
+
+
+}
